@@ -1,5 +1,7 @@
 # options-market-making-simulator
 
+[![CI](https://github.com/rxj0102/options-market-making-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/rxj0102/options-market-making-simulator/actions/workflows/ci.yml)
+
 A simulated options market-making engine: pricing, quoting, customer order flow, delta hedging, hard risk limits, and P&L attribution, wired together into one tick-by-tick trading session.
 
 ## What market making is
