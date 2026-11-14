@@ -70,6 +70,32 @@ tests/                   # pytest unit + integration tests
 notebooks/                # full session walkthrough with visualizations
 ```
 
+## Reproducibility
+
+### Data availability
+
+No external data is downloaded. Inputs are generated or parameterised inside the code.
+
+### Computational requirements
+
+- Python 3.12.3. Every dependency version is pinned in `uv.lock`.
+- Checked on Linux x86_64 with 2 CPU cores and 8 GB RAM. No GPU is needed.
+
+```bash
+pip install uv     # once
+uv sync            # installs the exact pinned environment
+uv run pytest -q   # runs the test suite
+```
+
+### Runtime
+
+The test suite (60 tests) finishes in about 12 seconds on the machine above, including any data downloads it triggers.
+
+### Citation
+
+Citation metadata is in `CITATION.cff`. GitHub turns it into a Cite this repository button on the repo page.
+
+
 ## Disclaimer
 
 This is an educational simulation, not a live trading system. The underlying price path, the options chain, and all customer order flow are synthetic. There is no real market data, no real execution, and no real money anywhere in this repository. It is intended to demonstrate market-making concepts (quoting, hedging, risk management, P&L attribution) in code, not to be used for actual trading.
