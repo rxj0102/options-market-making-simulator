@@ -6,17 +6,17 @@ A simulated options market-making engine: pricing, quoting, customer order flow,
 
 ## What market making is
 
-A market maker continuously quotes both a price it will buy at (the bid) and a price it will sell at (the ask), earning the spread between them in exchange for standing ready to trade with anyone who wants to. The job isn't computing a fair value — that's a formula — it's deciding, in real time, how much edge to demand for the risk a given quote exposes the desk to, and how aggressively to lay that risk off (via hedging) before it turns into a P&L problem.
+A market maker continuously quotes both a price it will buy at (the bid) and a price it will sell at (the ask), earning the spread between them in exchange for standing ready to trade with anyone who wants to. The job isn't computing a fair value, that's a formula, it's deciding, in real time, how much edge to demand for the risk a given quote exposes the desk to, and how aggressively to lay that risk off (via hedging) before it turns into a P&L problem.
 
 ## What this simulator does
 
 It runs one simulated trading day (390 one-minute ticks) of a market maker quoting a single-expiry options chain (9 strikes of calls and puts) against a simulated underlying price path. Each tick:
 
-1. **Prices the chain** with Black-Scholes, using a fixed implied-vol assumption while the underlying's *realized* vol is allowed to drift away from it (including a scripted mid-session vol regime shift) — a deliberate, visible source of model risk.
-2. **Builds a two-sided quote** around theo, where the half-spread is a sum of named components (a base edge floor, inventory skew/widening, gamma/time-to-expiry widening, realized-vs-implied vol mismatch widening, and order-flow toxicity widening) and the whole market skews against the desk's current position — not just widens.
-3. **Simulates customer order flow**: Poisson arrivals, mostly random, with a tunable fraction of "informed" flow biased toward the underlying's near-term move; wider quotes reduce fill probability, creating a real edge-vs-flow tradeoff.
+1. **Prices the chain** with Black-Scholes, using a fixed implied-vol assumption while the underlying's *realized* vol is allowed to drift away from it (including a scripted mid-session vol regime shift): a deliberate, visible source of model risk.
+2. **Builds a two-sided quote** around theo, where the half-spread is a sum of named components (a base edge floor, inventory skew/widening, gamma/time-to-expiry widening, realized-vs-implied vol mismatch widening, and order-flow toxicity widening) and the whole market skews against the desk's current position, not just widens.
+3. **Simulates customer order flow**: Poisson arrivals, mostly random, with a tunable fraction of *informed* flow biased toward the underlying's near-term move; wider quotes reduce fill probability, creating a real edge-vs-flow tradeoff.
 4. **Delta-hedges** the resulting exposure in the underlying, on a configurable threshold/cadence, so the cost of staying flat is explicit and separable from the risk of not staying flat.
-5. **Enforces hard risk limits** on position size and portfolio delta/gamma/vega, escalating from rejecting risk-increasing orders, to forcing an immediate hedge, to a full trading halt — every breach and the action it triggered is logged.
+5. **Enforces hard risk limits** on position size and portfolio delta/gamma/vega, escalating from rejecting risk-increasing orders, to forcing an immediate hedge, to a full trading halt: every breach and the action it triggered is logged.
 6. **Attributes P&L** into spread capture, hedging cost, and residual (unhedged) risk P&L, which reconcile exactly to the session's total.
 
 See `notebooks/trading_session_walkthrough.ipynb` for a full run with commentary and visualizations.
@@ -102,4 +102,4 @@ This is an educational simulation, not a live trading system. The underlying pri
 
 ## License
 
-MIT — see `LICENSE`.
+MIT: see `LICENSE`.
