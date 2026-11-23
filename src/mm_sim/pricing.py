@@ -26,9 +26,9 @@ class OptionType(str, Enum):
 class Greeks:
     """First-order (and gamma) risk sensitivities of a single option.
 
-    Units: delta/gamma are per 1.0 move in the underlying, vega is per 1.00
-    (100 vol points) change in volatility, theta is per calendar day, rho is
-    per 1.00 (100%) change in the risk-free rate.
+    Units: delta/gamma are per 1.0 move in the underlying, vega is per 1 vol
+    point (0.01 change in volatility), theta is per calendar day, rho is per
+    1 percentage point (0.01 change in the risk-free rate).
     """
 
     delta: float
@@ -110,7 +110,7 @@ def black_scholes_greeks(
     pdf_d1 = norm.pdf(d1)
 
     gamma = pdf_d1 / (spot * vol * sqrt_t)
-    vega = spot * pdf_d1 * sqrt_t / 100.0  # per 1 vol point (0.01), scaled to "per 1.00" below in callers if needed
+    vega = spot * pdf_d1 * sqrt_t / 100.0  # per 1 vol point (0.01)
 
     if option_type == OptionType.CALL:
         delta = norm.cdf(d1)
