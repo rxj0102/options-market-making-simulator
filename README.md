@@ -21,6 +21,17 @@ It runs one simulated trading day (390 one-minute ticks) of a market maker quoti
 
 See `notebooks/trading_session_walkthrough.ipynb` for a full run with commentary and visualizations.
 
+## What it leaves out
+
+These are simplifications in the code, listed so that no result from a session is read as more than it is.
+
+- **One volatility for every strike.** Every option is priced at the same fixed implied volatility (`base_vol`) all day. There is no smile, no term structure and no repricing of implied volatility when realized volatility shifts, so vega risk comes only from the gap between the two.
+- **One expiry, Black-Scholes.** Nine strikes of a single expiry, European pricing, no dividends.
+- **No competing market makers.** Fill probability is a function of the desk's own spread (`base_fill_prob`, `fill_prob_spread_sensitivity`). There is no order book, queue position or rival quote, so a wider spread loses flow by assumption, not by competition.
+- **Informed flow is a parameter.** 15 percent of orders, when the underlying is about to move at least 0.15 percent over the next 5 ticks, are biased toward that move. The adverse selection the desk sees depends directly on these settings.
+- **Costs.** Hedges pay a flat 0.005 per share. Option fills pay no exchange fees or commissions.
+- **One synthetic day by default.** A GBM path with zero drift and a scripted volatility spike, one fixed seed. A single session is a demonstration, not an estimate of expected P&L; that would need many seeds and the spread of outcomes across them.
+
 ## How to run it
 
 ```bash
